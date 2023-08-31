@@ -4,8 +4,8 @@ import (
 	"context"
 	"os"
 
+	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
-	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -45,12 +45,12 @@ func HandleError(logLevel, msg string, err error) {
 	}
 }
 
-func ConfigAws() (*dynamodb.Client, error) {
+func ConfigAws() aws.Config {
 	configAws, err := config.LoadDefaultConfig(
-		context.TODO(),
+		context.Background(),
 		config.WithSharedCredentialsFiles([]string{"database/data/credentials.aws"}),
 		config.WithSharedConfigFiles([]string{"database/data/config.aws"}),
 	)
-
-	return dynamodb.NewFromConfig(configAws), err
+	HandleError("E", "Erro ao carregar configuraçção de aws", err)
+	return configAws
 }

@@ -5,4 +5,5 @@ type Pendencia struct {
 	Nome        string  `json:"nome"`
 	Description string  `json:"description"`
 	Valor       float64 `json:"valor"`
+	Pago        bool    `json:"pago"`
 }

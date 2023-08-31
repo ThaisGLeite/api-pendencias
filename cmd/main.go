@@ -1,13 +1,13 @@
 package main
 
 import (
+	"api-pendencias/database"
+	"api-pendencias/router"
 	"api-pendencias/utils"
-	"context"
 	"net/http"
 	"os"
 
 	"github.com/apex/gateway"
-	"github.com/sirupsen/logrus"
 )
 
 // Define constants for logging levels and server port.
@@ -19,24 +19,19 @@ const (
 )
 
 func main() {
-
-	// Set log level from environment or config
-	logs := utils.Init()
-
-	dynamoClient, err := driver.NewDynamoClient(context.Background(), logs)
-	if err != nil {
-		logs.HandleError("F", "Failed to configure AWS", err)
-		return
+	//Criar o log
+	log := utils.Init()
+	dynamoCliente := database.NewDynamoClient()
+	database := &database.Connection{
+		Logs:            log,
+		DynamodbCliente: dynamoCliente,
 	}
-
-	router := routers.SetupRouter(dynamoClient, logs)
-
-	serverPort := ":8080" // Default port
+	server := router.StartServer(database)
 
 	if isRunningInLambda() {
-		logs.HandleError("E", "Failed to start server", gateway.ListenAndServe(serverPort, router))
+		utils.HandleError("E", "Failed to start server", gateway.ListenAndServe(DefaultPort, server))
 	} else {
-		logs.HandleError("E", "Failed to start server", http.ListenAndServe(serverPort, router))
+		utils.HandleError("E", "Failed to start server", http.ListenAndServe(DefaultPort, server))
 	}
 }
 
