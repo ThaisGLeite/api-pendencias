@@ -3,7 +3,6 @@ package router
 import (
 	"api-pendencias/database"
 	"api-pendencias/pendencia"
-	"api-pendencias/utils"
 	"net/http"
 
 	"github.com/didip/tollbooth"
@@ -18,8 +17,6 @@ const (
 	ErrorLogLevel  = "E"
 	GinModeKey     = "GIN_MODE"
 	DefaultGinMode = gin.DebugMode
-	PortKey        = "PORT"
-	DefaultPort    = "8080"
 )
 
 // StartServer function initializes and starts the web server.
@@ -49,11 +46,6 @@ func StartServer(database *database.Connection) *gin.Engine {
 
 	// Setup the routes for the server.
 	setupRoutes(server, limiter, database)
-
-	// Run the server on the defined port. If there is an error, log it.
-	if err := server.Run(":" + PortKey); err != nil {
-		utils.HandleError(ErrorLogLevel, "Failed to run server", err)
-	}
 
 	return server
 }

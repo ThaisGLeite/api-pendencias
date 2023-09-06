@@ -1,8 +1,8 @@
 package model
 
 type Pendencia struct {
-	Dia         string  `json:"dia"`
 	Nome        string  `json:"nome"`
+	Dia         string  `json:"dia"`
 	Description string  `json:"description"`
 	Valor       float64 `json:"valor"`
 	Pago        bool    `json:"pago"`

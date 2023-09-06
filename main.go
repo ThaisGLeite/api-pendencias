@@ -14,8 +14,7 @@ import (
 const (
 	InfoLogLevel  = "I"
 	ErrorLogLevel = "E"
-	PortKey       = "PORT"
-	DefaultPort   = "8080"
+	DefaultPort   = ":8080"
 )
 
 func main() {

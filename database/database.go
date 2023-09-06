@@ -19,9 +19,11 @@ type Connection struct {
 	Ctx             *gin.Context
 }
 
+const TableName = "Pendencias"
+
 func (database *Connection) SelectAllPendencias() ([]model.Pendencia, error) {
 	input := &dynamodb.ScanInput{
-		TableName: aws.String("Pendencia"),
+		TableName: aws.String(TableName),
 		ExpressionAttributeNames: map[string]string{
 			"#P": "Pago",
 		},
@@ -66,7 +68,7 @@ func (database *Connection) SelectPendenciasByName() ([]model.Pendencia, error) 
 
 	// Define the query input
 	input := &dynamodb.QueryInput{
-		TableName:                 aws.String("Pendencia"),
+		TableName:                 aws.String(TableName),
 		KeyConditionExpression:    aws.String("#N = :nomeVal"),
 		FilterExpression:          aws.String("#P = :pagoVal"),
 		ExpressionAttributeNames:  exprAttrNames,
@@ -101,7 +103,7 @@ func (database *Connection) CreatePendencia(p model.Pendencia) error {
 	}
 
 	input := &dynamodb.PutItemInput{
-		TableName: aws.String("Pendencia"),
+		TableName: aws.String(TableName),
 		Item:      item,
 	}
 
@@ -141,7 +143,7 @@ func (database *Connection) UpdatePendencia(p model.Pendencia) error {
 	}
 
 	input := &dynamodb.UpdateItemInput{
-		TableName:                 aws.String("Pendencia"),
+		TableName:                 aws.String(TableName),
 		Key:                       key,
 		UpdateExpression:          aws.String(updateExpression),
 		ExpressionAttributeValues: expressionValues,
