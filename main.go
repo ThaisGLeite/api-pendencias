@@ -41,7 +41,7 @@ func isRunningInLambda() bool {
 
 // Para compilar o binario do sistema usamos:
 //
-//	GOARCH=arm64 GOOS=linux  CGO_ENABLED=0 go build -tag lambda.norpc -o bootstrap .
+//	GOARCH=arm64 GOOS=linux  CGO_ENABLED=0 go build -tags lambda.norpc -o bootstrap .
 //
 // para criar o zip do projeto comando:
 //

@@ -6,6 +6,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/beevik/ntp"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -53,4 +54,12 @@ func ConfigAws() aws.Config {
 	)
 	HandleError("E", "Erro ao carregar configuraçção de aws", err)
 	return configAws
+}
+
+func GetHoras() string {
+	//o codigo esta indo no observatorio nacional pegar a data e hora
+	datatemp, err := ntp.Time("a.st1.ntp.br")
+	HandleError("W", "Nao foi possivel ", err)
+
+	return datatemp.Format("2006-01-02_15:04:05")
 }
