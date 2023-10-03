@@ -43,6 +43,7 @@ func (db *Database) CreatePendencia(c *gin.Context) {
 		c.IndentedJSON(http.StatusInternalServerError, err)
 		return
 	}
+	pendencia.Dia = utils.GetHoras()
 	db.Database.Ctx = c
 	err = db.Database.CreatePendencia(pendencia)
 	if err == nil {
